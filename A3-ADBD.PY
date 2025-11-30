@@ -16,11 +16,10 @@ import matplotlib.pyplot as plt
 plt.style.use("seaborn-v0_8-darkgrid")
 plt.rcParams["figure.figsize"] = (12, 6)
 
-# ----------------------------------------------------------
-# 1. CARREGAMENTO DOS DADOS
-# ----------------------------------------------------------
 
-DATA_PATH = r"C:\Users\Jeanh\Desktop\testes\PROJETO_A3_ADBD\arquivos\Olist_DataSets"
+# 1. CARREGAMENTO DOS DADOS
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(BASE_DIR,"ARQUIVOS", "Olist_DataSets")
 
 customers = pd.read_csv(os.path.join(DATA_PATH, "olist_customers(Clientes)_dataset.csv"))
 orders    = pd.read_csv(os.path.join(DATA_PATH, "olist_orders(Pedidos)_dataset.csv"))
@@ -31,9 +30,7 @@ reviews   = pd.read_csv(os.path.join(DATA_PATH, "olist_order_reviews(avaliacao_p
 
 print("Dados carregados!")
 
-# ----------------------------------------------------------
 # 2. TRATAMENTO E JUNÇÃO
-# ----------------------------------------------------------
 
 # Convertendo colunas de data
 orders["order_purchase_timestamp"] = pd.to_datetime(orders["order_purchase_timestamp"])
@@ -57,10 +54,9 @@ orders_full = (
     .merge(reviews[["order_id","review_score"]], on="order_id", how="left")
 )
 
-# ==========================================================
 # 3. ANÁLISE PROFUNDA 1 — CLIENTES
-# ==========================================================
-print("\n==== ANÁLISE 1: CLIENTES ====\n")
+
+print("\n ANÁLISE 1: CLIENTES")
 
 # Total de pedidos por estado
 pedidos_por_estado = (
@@ -83,7 +79,7 @@ itens_por_estado = (
     / pedidos_por_estado
 )
 
-# ---------- GRÁFICO 1 — PEDIDOS POR ESTADO ----------
+#  GRÁFICO 1 — PEDIDOS POR ESTADO 
 plt.figure()
 bars = plt.bar(pedidos_por_estado.index, pedidos_por_estado.values, color="#4C72B0")
 plt.title("Total de Pedidos por Estado – Análise dos Clientes")
@@ -96,7 +92,7 @@ for b in bars:
 plt.tight_layout()
 plt.show()
 
-# ---------- GRÁFICO 2 — TICKET MÉDIO POR ESTADO ----------
+#  GRÁFICO 2 — TICKET MÉDIO POR ESTADO 
 plt.figure()
 plt.bar(ticket_medio_estado.index, ticket_medio_estado.values, color="#55A868")
 plt.title("Ticket Médio por Estado (R$) – Poder Aquisitivo do Cliente")
@@ -107,17 +103,16 @@ plt.tight_layout()
 plt.show()
 
 print("""
-INSIGHTS PROFUNDOS – CLIENTES:
+INSIGHTS – CLIENTES:
 • SP, RJ e MG concentram a maior demanda.
 • Estados do Sul possuem ticket médio mais alto → consumidores com maior poder aquisitivo.
 • Alguns estados compram pouco, mas têm ticket alto (mercado de nicho).
 • Correlação encontrada: estados com mais pedidos nem sempre têm maior ticket médio.
 """)
 
-# ==========================================================
-# 4. ANÁLISE PROFUNDA 2 — PEDIDOS (LOGÍSTICA + AVALIAÇÕES)
-# ==========================================================
-print("\n==== ANÁLISE 2: PEDIDOS ====\n")
+# 4. ANÁLISE  2 — PEDIDOS (LOGÍSTICA + AVALIAÇÕES)
+
+print("\n ANÁLISE 2: PEDIDOS")
 
 # Taxa de atraso por categoria
 atraso_categoria = (
@@ -133,7 +128,7 @@ nota_x_atraso = (
     .mean()
 )
 
-# ---------- GRÁFICO 3 — ATRASO POR CATEGORIA ----------
+# GRÁFICO 3 — ATRASO POR CATEGORIA 
 plt.figure()
 plt.bar(atraso_categoria.index, atraso_categoria.values, color="#C44E52")
 plt.title("Top Categorias com Maior Taxa de Atraso")
@@ -142,7 +137,7 @@ plt.xticks(rotation=75)
 plt.tight_layout()
 plt.show()
 
-# ---------- GRÁFICO 4 — NOTA MÉDIA x ATRASO ----------
+#  GRÁFICO 4 — NOTA MÉDIA x ATRASO 
 plt.figure()
 plt.bar(["No Prazo", "Atrasado"], nota_x_atraso.values, color=["#4C72B0", "#C44E52"])
 plt.title("Comparação da Nota Média: No Prazo vs Atrasado")
@@ -160,10 +155,10 @@ INSIGHTS PROFUNDOS – PEDIDOS:
 • Atrasos são um dos maiores problemas ocultos da plataforma.
 """)
 
-# ==========================================================
-# 5. ANÁLISE PROFUNDA 3 — VENDEDORES
-# ==========================================================
-print("\n==== ANÁLISE 3: VENDEDORES ====\n")
+
+# 5. ANÁLISE 3 — VENDEDORES
+
+print("\n ANÁLISE 3: VENDEDORES n")
 
 # Top 5 vendedores por receita
 top5 = seller_stats = (
@@ -198,10 +193,9 @@ plt.tight_layout()
 plt.show()
 
 print(f"""
-INSIGHTS PROFUNDOS – VENDEDORES:
+VENDEDORES:
 • Os 5 maiores vendedores representam {porcentagem:.2f}% de TODO o faturamento da plataforma.
-• Isso mostra forte DEPENDÊNCIA da Olist em poucos vendedores.
-• Se um deles sair, a plataforma sente o impacto.
-• Possível efeito Pareto: 20% dos vendedores geram 80% do faturamento.
-• Estratégia recomendada → expandir base de vendedores fortes em outros estados.
+• A Olist NÃO depende fortemente dos maiores vendedores
+• O marketplace é bem distribuído
+• A plataforma não sofre grande impacto se um vendedor grande sair
 """)
