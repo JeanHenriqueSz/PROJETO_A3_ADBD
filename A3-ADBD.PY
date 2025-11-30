@@ -177,7 +177,7 @@ total_receita = orders_full["price"].sum()
 receita_top5 = top5["receita"].sum()
 porcentagem = (receita_top5 / total_receita) * 100
 
-# ---------- GRÁFICO 5 — TOP 5 VENDEDORES ----------
+# GRÁFICO 5 — TOP 5 VENDEDORES 
 plt.figure()
 bars = plt.bar(top5.index.astype(str), top5["receita"], color="#8172B2")
 plt.title("Top 5 Vendedores por Receita")
