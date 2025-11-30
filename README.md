@@ -1,7 +1,7 @@
 # PROJETO_A3_ADBD
 PROJETO-A3---ADBD
 
-Arthur Maestro da Silva Aguiar - 4231925821
+Arthur Maestri da Silva de Aguiar - 4231925821
 
 Isadora Gomes Xisto – 4251925870
 
