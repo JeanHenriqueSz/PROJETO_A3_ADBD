@@ -2,7 +2,7 @@
 # TRABALHO FINAL A3 – ANÁLISE DE DADOS DA OLIST
 # Análises: Clientes, Pedidos e Vendedores
 
-# Arthur Maestro da Silva Aguiar - 4231925821
+# Arthur Maestri da Silva de Aguiar - 4231925821
 #Isadora Gomes Xisto – 4251925870
 #Jean Henrique Resende Paiva - 4251925073
 #Samuel Fellipe Batista - 42521948
